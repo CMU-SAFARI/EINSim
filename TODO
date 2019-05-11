@@ -1,0 +1,13 @@
+TODO - list of outstanding tasks for EINSim:
+
+Improvements:
++ Better output format
+	+ Extensible to arbitrary configurations and observables
+	+ More compact representation of ^ information
++ Better stress tests for all corner cases of the ECC implementations
++ General performance optimization
+	+ Perhaps a more efficient representation than Eigen data types?
+
+New features:
++ Wider range of ECC schemes (e.g., LDPC, non-binary)
++ Different encoding/decoding algorithms (e.g., soft decoding)
