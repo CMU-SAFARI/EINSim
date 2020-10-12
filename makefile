@@ -2,6 +2,7 @@
 BIN = einsim
 BIN_DBG = $(BIN).d
 BUILD_DIR = build
+DOXY_DIR = doxygen
 SRC_DIR = src
 SOURCES := $(wildcard $(SRC_DIR)/*.cpp $(SRC_DIR)/*/*.cpp)
 SUBDIRS := $(sort $(dir ${SOURCES}))
@@ -11,9 +12,9 @@ DEPS = $(OBJS:%=%.d)
 DEPS_DBG = $(OBJS_DBG:%=%.d)
 CC = g++
 LD = g++
-INCLUDE_DIRS = $(SRC_DIR) lib/eigen_3.3.7 lib/libtp lib/cxxopts
+INCLUDE_DIRS = $(SRC_DIR) lib lib/eigen_3.3.7 lib/libtp lib/cxxopts lib/rapidjson
 CFLAGS_OPT = -g -Wfatal-errors -Werror -Wall -O3 $(INCLUDE_DIRS:%=-I%) -std=c++11 -pthread
-CFLAGS_DBG = -g -Wfatal-errors -Werror -Wall -O0 $(INCLUDE_DIRS:%=-I%) -std=c++11 -pthread
+CFLAGS_DBG = -ggdb -Wfatal-errors -Werror -Wall -O0 $(INCLUDE_DIRS:%=-I%) -std=c++11 -pthread
 LDFLAGS = -pthread
 LDFLAGS_DBG = -pthread
 
@@ -24,14 +25,20 @@ LDFLAGS_DBG = -pthread
 
 .SUFFIXES:
 
-.PHONY: default all release debug clean
+.PHONY: default jall all release debug clean doc
 default: release
 
 release: $(BIN)
 
+doc:
+	doxygen
+
 debug: $(BIN_DBG)
 
 all: release debug
+
+jall: 
+	$(MAKE) -j 8 all
 
 -include $(DEPS) 
 -include $(DEPS_DBG)
@@ -56,3 +63,4 @@ clean:
 	rm -f $(BIN)
 	rm -f $(BIN_DBG)
 	rm -rf $(BUILD_DIR)
+	rm -rf $(DOXY_DIR)

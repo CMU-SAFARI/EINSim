@@ -25,7 +25,7 @@
 
 /* project */
 #include "word_generator.h"
-#include "error_injector.h"
+#include "error_model.h"
 #include "ecc_code.h"
 #include "supporting_routines.h"
 #include "codes/repetition_code.h"
@@ -42,7 +42,8 @@ void debug_example_worker(int tid, einsim::ecc_code *ec, int n_words_to_simulate
         // Generate dataword
         Eigen::Matrix< ET, Eigen::Dynamic, 1 > data_word_sent = 
             Eigen::Matrix< ET, Eigen::Dynamic /* rows */, 1 /* cols */>::Zero(ec->get_n_data_bits());
-        einsim::generate_word(data_word_sent, dp);
+        Eigen::Matrix< ET, Eigen::Dynamic /* rows */, 1 /* cols */> dummy;
+        einsim::generate_word(data_word_sent, dp, dummy, einsim::CD_ALL_TRUE);
 
         // Encode dataword into codeword
         Eigen::Matrix< ET, Eigen::Dynamic, 1 > code_word_sent = ec->encode(data_word_sent);
@@ -54,7 +55,7 @@ void debug_example_worker(int tid, einsim::ecc_code *ec, int n_words_to_simulate
 
             // inject precisely N errors. the DP is not strictly true, but we're just trying to test functionality here 
             Eigen::Matrix< ET, Eigen::Dynamic, 1 > code_word_recv = code_word_sent;
-            inject_n(code_word_recv, einsim::ED_UNIFORM_RANDOM, einsim::CD_ALL_TRUE, einsim::DP_CHARGED, nerrs_transmitted);
+            inject_n(code_word_recv, einsim::EM_UNIFORM_RANDOM, einsim::CD_ALL_TRUE, einsim::DP_CHARGED, nerrs_transmitted);
 
             int nerrs_induced = hamming_distance(code_word_sent, code_word_recv);
             if(nerrs_induced > nerrs_transmitted)
@@ -64,7 +65,7 @@ void debug_example_worker(int tid, einsim::ecc_code *ec, int n_words_to_simulate
                 ss << "code_sent: " << code_word_sent << ", code_rcvd: " << code_word_recv
                     << ", data_sent: " << data_word_sent;
                 printf_both("[ERROR] %s\n", ss.str().c_str());
-                exit(-1);
+                assert(0 && "TEST FAIL");
             }
 
             // Decode codeword into dataword
@@ -84,7 +85,7 @@ void debug_example_worker(int tid, einsim::ecc_code *ec, int n_words_to_simulate
                 ss << "code_sent: " << code_word_sent << ", code_rcvd: " << code_word_recv
                     << ", data_sent: " << data_word_sent << ", data_rcvd: " << data_word_recv;
                 printf_both("[ERROR] %s\n", ss.str().c_str());
-                exit(-1);
+                assert(0 && "TEST FAIL");
             }
             
             if(accumulator[nerrs_transmitted].count(nerrs_observed) == 0)

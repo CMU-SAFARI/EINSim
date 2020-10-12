@@ -1,2 +1,15 @@
 version 1.0.0 [2019 May 10]
 	+ The first public release of EINSim
+
+version 2.0.0 [2020 Oct 12]
+    + Addding the following major features:
+        + Support for multiple computing multiple different observations over the final simulated ECC words
+        + JSON representation of ECC schemes
+        + Flexible error-injection models per-bit (+ JSON configuration files)
+        + Custom data patterns
+        + UID identification for ECC scheme configurations
+        + Configurable word-to-burst mappings
+    + Improving overall code style (e.g., better use of `const' qualifiers)
+    + Updating examples and scripts to support the new features
+    + Updating documentation with theses changes
+    

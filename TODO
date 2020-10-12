@@ -4,6 +4,7 @@ Improvements:
 + Better output format
 	+ Extensible to arbitrary configurations and observables
 	+ More compact representation of ^ information
++ Better representation of ECC schemes (e.g., natuarally extensible to non-block-codes)
 + Better stress tests for all corner cases of the ECC implementations
 + General performance optimization
 	+ Perhaps a more efficient representation than Eigen data types?

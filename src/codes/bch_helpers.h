@@ -134,7 +134,7 @@ Eigen::Matrix< ET, Eigen::Dynamic, 1 > bch_encode(int length, int k
 void bch_decode(
       int length, int t, int n
     , Eigen::Matrix< int, Eigen::Dynamic, 1 > &code_word_padded
-    , Eigen::Matrix< int, Eigen::Dynamic, 1 > &alpha_to
-    , Eigen::Matrix< int, Eigen::Dynamic, 1 > &index_of);
+    , const Eigen::Matrix< int, Eigen::Dynamic, 1 > &alpha_to
+    , const Eigen::Matrix< int, Eigen::Dynamic, 1 > &index_of);
 
 #endif /* BCH_HELPERS_H */

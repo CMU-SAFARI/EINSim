@@ -487,8 +487,8 @@ struct bch_decode_locals
 void bch_decode(
       int length, int t, int n
     , Eigen::Matrix< int, Eigen::Dynamic, 1 > &code_word_padded
-    , Eigen::Matrix< int, Eigen::Dynamic, 1 > &alpha_to
-    , Eigen::Matrix< int, Eigen::Dynamic, 1 > &index_of)
+    , const Eigen::Matrix< int, Eigen::Dynamic, 1 > &alpha_to
+    , const Eigen::Matrix< int, Eigen::Dynamic, 1 > &index_of)
 {
     int    i, j, u, q, t2, count = 0, syn_error = 0;
     struct bch_decode_locals *bdl = new struct bch_decode_locals;

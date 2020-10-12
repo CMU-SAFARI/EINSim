@@ -18,21 +18,20 @@
 
 namespace einsim
 {
-	/** @brief enumerates different observables that we can measure in simulation and experiment */ 
+    /** @brief enumerates different observables that we can measure in simulation and experiment */ 
     enum observable
     {
           OBS_N_ERRORS_PER_BURST /**< counting the number of errors in a burst */
+        , OBS_PER_BIT_ERROR_COUNT /**< histogram of how many times each bit fails */
         
-        , OBS_MAX
+        , OBS_UNKNOWN
     };
 
-    /**
-     * @brief enum to string conversion for the enum einsim::observable
-     * 
-     * @param obs enumeration value
-     * @return string representation of the input value
-     */
-    std::string enum_to_str_observable(enum einsim::observable obs);
+    /* routines for converting between the string and enum representations of error distributions */
+    enum einsim::observable str_to_enum_observable(const std::string &str); /**< @brief converts observable string to enumeration */
+    std::string enum_to_str_observable(enum einsim::observable obs); /**< @brief converts observable enumeration to a string */
+    std::string get_all_possible_observables(void); /**< @brief returns a comma-separated string of all observable values */
+
 }
 
 #endif /* OBSERVABLE_H */

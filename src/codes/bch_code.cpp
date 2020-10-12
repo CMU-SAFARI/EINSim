@@ -56,7 +56,7 @@ std::string einsim::bch::polynomial_to_str(Eigen::Matrix< int, Eigen::Dynamic, 1
     return ss.str();
 }
 
-Eigen::Matrix< ET, Eigen::Dynamic, 1 > einsim::bch::encode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > data_word)
+Eigen::Matrix< ET, Eigen::Dynamic, 1 > einsim::bch::encode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > data_word) const
 {
     assert(data_word.size() == get_n_data_bits());
 
@@ -78,7 +78,7 @@ Eigen::Matrix< ET, Eigen::Dynamic, 1 > einsim::bch::encode(Eigen::Matrix< ET, Ei
     return codeword;
 }
 
-Eigen::Matrix< ET, Eigen::Dynamic, 1 > einsim::bch::decode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > code_word)
+Eigen::Matrix< ET, Eigen::Dynamic, 1 > einsim::bch::decode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > code_word) const
 {
     assert(code_word.size() == get_n_code_bits());
 

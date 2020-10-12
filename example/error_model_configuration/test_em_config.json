@@ -1,0 +1,24 @@
+/* Here we describe a 7-bit codeword with different types of errors */
+[
+      [
+          {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 0 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 1 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 2 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5],[0.6],[0.7]]} /* bit 3 */
+        , {"error_model" : "STUCK_AT",       "model_params" : [[1]]} /* bit 4 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 5 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 6 */
+    ]
+    , [
+        {"error_model" : "UNIFORM_RANDOM",   "model_params" : [[0.1]]} /* all bits */
+    ]
+    , [
+          {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 0 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 1 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 2 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5],[0.6],[0.7]]} /* bit 3 */
+        , {"error_model" : "STUCK_AT",       "model_params" : [[0], [1]]} /* bit 4 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 5 */
+        , {"error_model" : "UNIFORM_RANDOM", "model_params" : [[0.5]]} /* bit 6 */
+    ]
+]

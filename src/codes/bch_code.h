@@ -94,32 +94,32 @@ namespace einsim
         }
         ~bch(void) {}
 
-        bool ready(void)
+        bool ready(void) const
         {
             return initialized;
         }
 
-        int correction_capability(void)
+        int correction_capability(void) const
         {
             return t;
         }
 
-        int get_n_data_bits(void)
+        int get_n_data_bits(void) const
         {
             return n_data_bits; // NOT k - k is the max number of data bits this code can support
         }
 
-        int get_n_code_bits(void)
+        int get_n_code_bits(void) const
         {
             return n - k + n_data_bits;
         }
 
-        int get_permutation(void)
+        int get_permutation(void) const
         {
             return permutation;
         }
 
-        std::string name(void)
+        std::string name(void) const
         {
             std::stringstream ss;
             ss << einsim::bch::static_name() << " (m: " << m << ", n: " << n << ", k: " << k << ", t: " << t << ") with ";
@@ -130,12 +130,25 @@ namespace einsim
             return ss.str();            
         }
 
-        std::string name_short(void)
+        std::string name_short(void) const
         {
             std::stringstream ss;
             ss << einsim::bch::static_name_short() << ": ";
             ss << "p:" << permutation << " t:" << t << " k:" << k << " n:" << n << " m:" << m;
             return ss.str();            
+        }
+
+        enum einsim::ecc_scheme get_scheme(void) const 
+        {
+            switch(this->correction_capability())
+            {
+                case 1: return einsim::ES_BCH_T1;
+                case 2: return einsim::ES_BCH_T2;
+                case 3: return einsim::ES_BCH_T3;
+                default:
+                    printf("[ERROR] unhandled correction capability for BCH code: %d\n", this->correction_capability());
+                    assert(0 && "unhandled correction_capability for BCH code");
+            }
         }
 
         static std::string static_name()
@@ -148,8 +161,10 @@ namespace einsim
             return std::string("BCH");
         }
 
-        Eigen::Matrix< ET, Eigen::Dynamic, 1 > encode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > data_word);
-        Eigen::Matrix< ET, Eigen::Dynamic, 1 > decode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > code_word);
+        int to_json(std::string &json) const { assert(0 && "unimplemented!"); }
+
+        Eigen::Matrix< ET, Eigen::Dynamic, 1 > encode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > data_word) const;
+        Eigen::Matrix< ET, Eigen::Dynamic, 1 > decode(Eigen::Matrix< ET, Eigen::Dynamic, 1 > code_word) const;
 
         static void submit_tests(thread_pool &tp, enum test_mode mode);
     };
