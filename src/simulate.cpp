@@ -310,7 +310,7 @@ void simulate
 
             for(const enum einsim::word_to_burst_mapping &w2b_map : w2b_mappings)
             {
-                for(const std::vector< einsim::error_model_descriptor *> em : error_models)
+                for(const std::vector< einsim::error_model_descriptor *> &em : error_models)
                 {
                     for(const enum einsim::true_anti_cell_distribution cd : ta_cell_distributions)
                     {
