@@ -36,6 +36,7 @@
 #include "codes/bch_code.h"
 #include "codes/hamming_code.h"
 
+#ifndef DYNAMIC_LIB /* build as dynamic library */
 /**
  * @brief EINSim entry point that parses CLI arguments and begins simulation
  * 
@@ -597,3 +598,4 @@ int main(int argc, char ** argv) // canNOT const argv due to cxxopts requirement
 
     return 0;
 }
+#endif /* DYNAMIC_LIB */

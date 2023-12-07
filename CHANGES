@@ -12,4 +12,6 @@ version 2.0.0 [2020 Oct 12]
     + Improving overall code style (e.g., better use of `const' qualifiers)
     + Updating examples and scripts to support the new features
     + Updating documentation with theses changes
-    
+
+version 2.1.0 [2023 Dec 7]
+    + Adding a shared library build target for EINSim

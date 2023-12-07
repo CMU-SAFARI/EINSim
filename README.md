@@ -62,6 +62,7 @@ The makefile has various targets, described as follows:
 
 - ```release``` builds ```einsim``` with full optimizations
 - ```debug``` builds ```einsim.d``` with no optimization and debug symbols
+- ```lib``` builds ```einsim.so``` as a shared library with full optimizations
 - ```doc``` builds Doxygen documentation in the directory ```doxygen```
 - ```all``` builds both ```release``` and ```debug```
 - ```clean``` cleans build and binary files for both ```release``` and ```debug```
