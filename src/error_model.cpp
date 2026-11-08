@@ -26,12 +26,10 @@
 #include "error_model.h"
 
 /* random distribution parameters used by the error injector */
-static std::default_random_engine rng;
+static thread_local std::default_random_engine rng{std::random_device{}()};
 static std::bernoulli_distribution ei_bernoulli_0_5(0.5);
-static bool error_injector_initialized = false;
 
-static std::random_device rd_inject_errs;
-static std::mt19937 rng_inject_errs(rd_inject_errs());
+static thread_local std::mt19937 rng_inject_errs{std::random_device{}()};
 
 enum einsim::error_model einsim::str_to_enum_error_model(const std::string &str)
 {
@@ -89,12 +87,6 @@ void einsim::inject(
 {    
     Eigen::Matrix< ET, Eigen::Dynamic, 1 > word_pre_injection(word);
 
-    // initialize the random distribution parameters
-    if(!error_injector_initialized)
-    {
-        rng.seed(std::random_device{}());
-        error_injector_initialized = true;
-    }
 
     // inject errors
     for(int i = 0; i < word.size(); i++)
@@ -145,11 +137,6 @@ void einsim::inject_n(
     , int n_errors
 )
 {
-    if(!error_injector_initialized)
-    {
-        rng.seed(std::random_device{}());
-        error_injector_initialized = true;
-    }
 
     // Ideally, we need to create a mask of the bits that can actually fail
     // depending on the cd + dp. However, that's VERY slow. Instead, we only handle the cases
