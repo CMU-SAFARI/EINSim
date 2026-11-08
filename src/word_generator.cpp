@@ -17,10 +17,9 @@
 #include "supporting_routines.h"
 #include "word_generator.h"
 
-static std::default_random_engine true_anti_cell_generator_rng;
-static std::default_random_engine word_generator_rng;
+static thread_local std::default_random_engine true_anti_cell_generator_rng{std::random_device{}()};
+static thread_local std::default_random_engine word_generator_rng{std::random_device{}()};
 static std::bernoulli_distribution bernoulli_0_5(0.5);
-static bool word_generator_initialized = false;
 
 enum einsim::data_pattern einsim::str_to_enum_data_pattern(const std::string &str)
 {
@@ -263,13 +262,6 @@ einsim::true_anti_cell_state einsim::generate_word(
     , const Eigen::Matrix< ET, Eigen::Dynamic, 1 > &custom_dp
     , const enum einsim::true_anti_cell_distribution cd)
 {
-    // handle the one-time initialization of the global random number generator
-    if(!word_generator_initialized)
-    {
-        true_anti_cell_generator_rng.seed(std::random_device{}());
-        word_generator_rng.seed(std::random_device{}());
-        word_generator_initialized = true;
-    }
 
     // determine the true-/anti-cell state of this word
     einsim::true_anti_cell_state tacs;

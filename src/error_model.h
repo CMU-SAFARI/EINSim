@@ -22,6 +22,19 @@
 
 namespace einsim
 {
+    /**
+     * @brief random engine of the calling thread: the simulator's worker threads share one error-model
+     * descriptor, so a per-object engine would be raced on by every thread (wrong statistics)
+     */
+    inline std::mt19937_64 &thread_rng(void)
+    {
+        thread_local std::mt19937_64 r{std::random_device{}()};
+        return r;
+    }
+}
+
+namespace einsim
+{
     /* forward declaration */
     class error_model_descriptor;
 
@@ -216,7 +229,6 @@ namespace einsim
         } p;
 
     protected:
-        mutable std::default_random_engine rng;
         mutable std::bernoulli_distribution dist;
         
     public:
@@ -225,7 +237,6 @@ namespace einsim
             , p(error_rate)
             , dist(error_rate)
         {
-            rng.seed(std::random_device{}());
         }
         
         static int get_n_model_params(void)
@@ -235,7 +246,7 @@ namespace einsim
 
         bool evaluate(bool data, bool is_true_cell) const
         {
-            return dist(rng) ? !data : data;
+            return dist(thread_rng()) ? !data : data;
         }
 
         const std::string to_str(void) const
@@ -268,7 +279,6 @@ namespace einsim
 
 
     protected:
-        mutable std::default_random_engine rng;
         mutable std::bernoulli_distribution dist;
         
 
@@ -278,7 +288,6 @@ namespace einsim
             , p(error_rate)
             , dist(error_rate)
         {
-            rng.seed(std::random_device{}());            
         }
         
         static int get_n_model_params(void)
@@ -290,7 +299,7 @@ namespace einsim
         {
             bool can_fail = data == is_true_cell;
             if(can_fail)
-                return dist(rng) ? !data : data;
+                return dist(thread_rng()) ? !data : data;
             return data;
         }
 
@@ -325,7 +334,6 @@ namespace einsim
 
 
     protected:
-        mutable std::default_random_engine rng;
         mutable std::bernoulli_distribution error_dist;
         mutable std::bernoulli_distribution noise_dist;
 
@@ -336,7 +344,6 @@ namespace einsim
             , error_dist(error_rate)
             , noise_dist(noise_ratio)
         {
-            rng.seed(std::random_device{}());            
         }
         
         static int get_n_model_params(void)
@@ -348,8 +355,8 @@ namespace einsim
         {
             bool can_fail = data == is_true_cell;
             if(can_fail)
-                data = error_dist(rng) ? !data : data;
-            return noise_dist(rng) ? !data : data;
+                data = error_dist(thread_rng()) ? !data : data;
+            return noise_dist(thread_rng()) ? !data : data;
         }
 
         const std::string to_str(void) const
